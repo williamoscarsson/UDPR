@@ -1,34 +1,37 @@
 class Img {
     //attributes
-    float numbOfObjects; //Numbers of objects showing
+    int numbOfObjects; //Numbers of objects showing
     PImage img;
 
     Img(){
         getImg(); 
-        numbOfObjects = random(10) +1;
+        numbOfObjects = (int)random(10) +1;
     }
 
-    void getImg(){
+    String getImg(){
         int temp = (int)random(6);
         switch (temp) {
             case 0 :
                 img = loadImage("Imgs/apple.png");
-            break;
+                return "Apple";
             case 1 :
                 img =loadImage("Imgs/Banana.png");
-            break;
+                return "Banan";
             case 2 :
                 img =loadImage("Imgs/fish.png");
-            break;
+                return "Fisk";
             case 3 :
                 img =loadImage("Imgs/lion.png");
-            break;
+                return "Lejon";
             case 4 :
                 img =loadImage("Imgs/Monkey.png");
-            break;
+                return "Apa";
             case 5 :
                 img =loadImage("Imgs/sun.png");
-            break;    
+                return "Sol";
+            default :
+                img =loadImage("Imgs/sun.png");
+                return "Sol";
         }
     }
 
@@ -121,4 +124,45 @@ class Img {
         image(img, 650, 150, 100, 100);
         image(img, 650, 350, 100, 100);
     }
+
+    void printImg(int i){
+        switch (i) {
+            case 1 :
+                imgOne();
+            break;
+            case 2 :
+                imgTwo();
+            break;		
+            case 3 :
+                imgThree();
+            break;	
+            case 4 :
+                imgFhor();
+            break;	
+            case 5 :
+                imgFive();
+            break;	
+            case 6 :
+                imgSix();
+            break;	
+            case 7 :
+                imgSeven();
+            break;	
+            case 8 :
+                imgEight();
+            break;	
+            case 9 :
+                imgNine();
+            break;	
+            case 10 :
+                imgTen();
+            break;	
+        }
+    }
+
+    int getNumbOfObjects(){
+        return numbOfObjects;
+    }
+    
+    
 }
