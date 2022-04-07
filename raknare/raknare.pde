@@ -4,6 +4,16 @@ int[] btnColorG = new int[10];
 int[] btnColorB = new int[10];
 Img img;
 boolean isRight = true;
+boolean paused = false;
+
+enum PausedState{
+  RIGHT,
+  WRONG,
+  PAUSED,
+  GO
+}
+
+PausedState pausedState = PausedState.GO;
 
 void setup(){
   size(800,800);
@@ -15,11 +25,32 @@ void setup(){
   }
 }
 
+
 void draw(){
+  play();
+  paused();
+}
+
+void play(){
+  if(paused) return;
   drawUi();
   drawButton();
   drawImg();
   img.printImg(img.getNumbOfObjects());
+}
+
+void paused(){
+  if(!paused) return;
+    switch (pausedState){
+      case RIGHT :
+        image(loadImage("Imgs/o.png"),200,150,400,400);
+        isRight = true;
+      break;	
+      case WRONG :
+        image(loadImage("Imgs/X.png"),200,150,400,400);
+      break;	
+    }
+
 }
 
 void drawImg(){
@@ -66,3 +97,29 @@ void mouseMoved(){
     }
   }
 }
+
+void mousePressed(){
+  unPause();
+  checkNumber();
+}
+
+void checkNumber(){
+  for (int i = 0; i < 10; i++){
+    if(nrBtn[i].isOver()){
+      if(i == img.getNumbOfObjects()-1){
+        paused = true;
+        pausedState = PausedState.RIGHT;
+      }else{
+        paused = true;
+        pausedState = PausedState.WRONG;
+      }
+    }
+  }
+}
+
+void unPause(){
+  paused = false;
+  play();
+}
+
+
