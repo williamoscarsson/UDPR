@@ -164,5 +164,9 @@ class Img {
         return numbOfObjects;
     }
     
-    
+    void drawWinImg(float rotate){
+        translate(400, 700);
+        rotate(rotate);
+        image(img,-100,-100,200,200);
+    }
 }

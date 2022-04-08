@@ -5,6 +5,7 @@ int[] btnColorB = new int[10];
 Img img;
 boolean isRight = true;
 boolean paused = false;
+float rotateValue = 0.0;
 
 enum PausedState{
   RIGHT,
@@ -43,14 +44,32 @@ void paused(){
   if(!paused) return;
     switch (pausedState){
       case RIGHT :
+        drawUi();
+        fill(0,0,0,50);
+        rect(0, 0, 800, 800);
         image(loadImage("Imgs/o.png"),200,150,400,400);
+        uppdateRotateValue();
+        img.drawWinImg(rotateValue);
         isRight = true;
       break;	
       case WRONG :
+        drawUi();
+        fill(0,0,0,50);
+        rect(0, 0, 800, 800);
         image(loadImage("Imgs/X.png"),200,150,400,400);
+        
       break;	
     }
 
+}
+
+void uppdateRotateValue(){
+ if(rotateValue < 360){
+   rotateValue += 0.05;
+ }else{
+   rotateValue = 0.05;
+ }
+ 
 }
 
 void drawImg(){
@@ -81,7 +100,7 @@ void drawUi(){
   fill(255,255,255);
   stroke(0,0,0);
   rect(100,575,600,200,10);
-  rect(200,10,400,100,10);
+  //rect(200,10,400,100,10);
   textAlign(CENTER);
 }
 
@@ -101,9 +120,11 @@ void mouseMoved(){
 void mousePressed(){
   unPause();
   checkNumber();
+  activateButtons();
 }
 
 void checkNumber(){
+  if(pausedState != PausedState.GO)return;
   for (int i = 0; i < 10; i++){
     if(nrBtn[i].isOver()){
       if(i == img.getNumbOfObjects()-1){
@@ -122,4 +143,7 @@ void unPause(){
   play();
 }
 
-
+void activateButtons(){
+  if(paused) return;
+  pausedState = PausedState.GO;
+}
