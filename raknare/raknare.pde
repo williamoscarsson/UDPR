@@ -52,7 +52,7 @@ void paused(){
         img.drawWinImg(rotateValue);
         isRight = true;
       break;	
-      case WRONG :
+      case WRONG :{}
         drawUi();
         fill(0,0,0,50);
         rect(0, 0, 800, 800);
