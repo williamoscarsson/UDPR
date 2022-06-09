@@ -1,4 +1,4 @@
-
+import http.requests.*;
 import processing.sound.*;
 Amplitude amp;
 
@@ -19,10 +19,17 @@ boolean soundVolume = false;
 
 int moth = 50;
 
+
+Timeget timeget;
+
 AudioIn in;
 int[][] colo=new int[300][3];
-//AudioIn in;
 
+String time;
+int lastCallTime = 0;
+int interval = 1000;
+
+//AudioIn in;
 
 //sets up audio input
 void setup()
@@ -38,10 +45,15 @@ void setup()
     btnColorG[i] = 255;
     btnColorB[i] = 200;
   }
+  
+  timeget = new Timeget();
+  
 }
  
 void draw()
-{
+{   
+    int timeSinceLastCall = millis() - lastCallTime;
+
     if(user == 0){
         background(43,134,195);
         color c = color(200, 255, 200);
@@ -67,6 +79,14 @@ void draw()
     }
         
     moveMouse();
+    fill(255,255,255);
+    rect(50,700,140,20);
+    fill(0,0,0);
+    if(timeSinceLastCall > interval){
+        time = timeget.getTime();
+        lastCallTime = millis();
+    }
+        text(time,50, 710);
 }
 
 void Admin(){
@@ -102,6 +122,9 @@ void Admin(){
 
 void WDraw(){
     if(user != 2) return;
+  
+  
+
   background(43,134,195);
   stroke(0);
   translate(400, 400);
@@ -135,7 +158,25 @@ void WDraw(){
   ellipse(50 + eyeDirx, -50+ eyeDiry, 30, 30);
   translate(-400,-400);
   
-  fill(0,0,0);
+  fill(255,255,255);
+  
+  rect(600,470,150,20);
+  fill(0);
+  text("Change TimeZone",620,480);
+
+  nrBtn[0] = new Button(650,500,50,50,"STHLM",c);
+  nrBtn[1] = new Button(650,560,50,50,"LDN",c);
+  nrBtn[2] = new Button(650,620,50,50,"ATH",c);
+
+  if(nrBtn[0].isOver() || nrBtn[0].isOverSounde(mouseXs,mouseYs)){
+            nrBtn[0] = new Button(650,500,50,50,"STHLM",cD);
+        }
+         else if(nrBtn[1].isOver() || nrBtn[1].isOverSounde(mouseXs,mouseYs)){
+            nrBtn[1] = new Button(650,560,50,50,"LDN",cD);
+        }
+        else if(nrBtn[2].isOver() || nrBtn[2].isOverSounde(mouseXs,mouseYs)){
+            nrBtn[2] = new Button(650,620,50,50,"ATH",cD);
+        }
   
 }
 
@@ -200,6 +241,18 @@ void mouseClicked() {
             if(mouseSens != 10){
                 mouseSens -= 10;
             }
+        }
+    }
+    else if(user == 2){
+        if(nrBtn[0].isOver() || nrBtn[0].isOverSounde(mouseXs,mouseYs)){
+            timeget.timegetStockholm();
+            time = timeget.getTime();
+        }else if(nrBtn[1].isOver() || nrBtn[1].isOverSounde(mouseXs,mouseYs)){
+            timeget.timegetLondon();
+            time = timeget.getTime();
+        }else if(nrBtn[2].isOver() || nrBtn[2].isOverSounde(mouseXs,mouseYs)){
+            timeget.timegetAthens();
+            time = timeget.getTime();
         }
     }
 }
